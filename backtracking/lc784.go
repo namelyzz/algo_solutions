@@ -32,7 +32,7 @@ func letterCasePermutation(s string) []string {
             dfs(i + 1)
         }
     }
-    
+
     dfs(0)
     return res
 }

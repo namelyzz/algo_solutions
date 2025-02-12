@@ -17,38 +17,38 @@ package backtracking
 - 这两种操作模式，容易搞混，一时没转过脑经写太快了会混用然后出错，这里做个小提醒
 */
 func generateParenthesis(n int) []string {
-    res := []string{}
-    path := make([]byte, n*2)
+	res := []string{}
+	path := make([]byte, n*2)
 
-    // 思路很好理解，就是选择填入左括号还是右括号
-    // left：当前已使用的左括号数量
-    // right：当前已使用的右括号数量
-    var dfs func(int, int)
-    dfs = func(left, right int) {
-        // 递归终止条件：右括号数量达到n（此时左括号必然也为n，因有效性约束）
-        if right == n {
-            res = append(res, string(path))
-            return
-        }
+	// 思路很好理解，就是选择填入左括号还是右括号
+	// left：当前已使用的左括号数量
+	// right：当前已使用的右括号数量
+	var dfs func(int, int)
+	dfs = func(left, right int) {
+		// 递归终止条件：右括号数量达到n（此时左括号必然也为n，因有效性约束）
+		if right == n {
+			res = append(res, string(path))
+			return
+		}
 
-        // 尝试添加左括号的条件：
-        // 1. left < n：左括号数量未达上限（最多n个）
-        // 2. left >= right：保证添加后仍满足"任意前缀左括号>=右括号"（有效性约束，不过这个条件去掉也没问题，
-        // 因为代码顺序，left 比 right 先判断，因此 left 天然 >= right ）
-        if left < n && left >= right {
-            // 在当前位置（已用括号数=left+right）放置左括号
-            path[left+right] = '('
-            dfs(left+1, right)
-        }
+		// 尝试添加左括号的条件：
+		// 1. left < n：左括号数量未达上限（最多n个）
+		// 2. left >= right：保证添加后仍满足"任意前缀左括号>=右括号"（有效性约束，不过这个条件去掉也没问题，
+		// 因为代码顺序，left 比 right 先判断，因此 left 天然 >= right ）
+		if left < n && left >= right {
+			// 在当前位置（已用括号数=left+right）放置左括号
+			path[left+right] = '('
+			dfs(left+1, right)
+		}
 
-        // 尝试添加右括号的条件：
-        // right < left：右括号数量小于左括号，保证添加后仍满足有效性（避免出现"))("等无效情况）
-        if right < left {
-            path[left+right] = ')'
-            dfs(left, right+1)
-        }
-    }
+		// 尝试添加右括号的条件：
+		// right < left：右括号数量小于左括号，保证添加后仍满足有效性（避免出现"))("等无效情况）
+		if right < left {
+			path[left+right] = ')'
+			dfs(left, right+1)
+		}
+	}
 
-    dfs(0, 0)
-    return res
+	dfs(0, 0)
+	return res
 }

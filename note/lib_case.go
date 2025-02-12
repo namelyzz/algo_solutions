@@ -1,11 +1,14 @@
 package note
 
 import (
+	"bytes"
 	"fmt"
 	"slices"
 	"sort"
 	"strconv"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 )
 
 func SortCase01() {
@@ -269,4 +272,64 @@ func StringsCase02() {
 
 	upper := strings.ToUpper("world")
 	fmt.Println(upper) // 输出: "WORLD"
+}
+
+func BytesCase01() {
+	b1 := []byte("hello")
+	b2 := []byte("world")
+
+	// 比较
+	fmt.Println(bytes.Compare(b1, b2)) // 输出: -1 (因为 'h' < 'w')
+	fmt.Println(bytes.Equal(b1, b2))   // 输出: false
+
+	// 包含与查找
+	slice := []byte("hello nameless")
+	fmt.Println(bytes.Contains(slice, []byte("me")))
+	fmt.Println(bytes.Index(slice, []byte("na")))
+
+	// 分割与连接
+	parts := bytes.Split([]byte("a, b, c"), []byte(", "))
+	fmt.Println(parts) // 输出: [[97] [98] [99]] (注意：输出的是字节切片的切片)
+	joined := bytes.Join(parts, []byte("-"))
+	fmt.Println(string(joined))
+
+	// 总体来说有点类似于 strings 的功能只是用于处理 byte 切片
+}
+
+func UnicodeCase01() {
+	var r rune = 'A'
+	var r2 rune = '字'
+	var r3 rune = ' '
+
+	// 判断字符类别
+	fmt.Println(unicode.IsLetter(r))         // 输出: true (是字母吗？)
+	fmt.Println(unicode.IsDigit(r))          // 输出: false (是数字吗？)
+	fmt.Println(unicode.Is(unicode.Han, r2)) // 输出: true (是汉字吗？)
+	fmt.Println(unicode.IsSpace(r3))         // 输出: true (是空白符吗？)
+	fmt.Println(unicode.IsLower(r))          // 输出: false (是小写字母吗？)
+	fmt.Println(unicode.IsUpper(r))          // 输出: true (是大写字母吗？)
+
+	// 大小写转换（返回转换后的rune）
+	lowerRune := unicode.ToLower(r)
+	fmt.Printf("%c\n", lowerRune)
+}
+
+func UTF8Case01() {
+	str := "Hello, 无名客"
+	_ = []rune(str) // 直接转换：string -> []rune
+
+	// 1. 解码：从 []byte 中解码出第一个 rune 及其宽度
+	b := []byte(str)
+	r, size := utf8.DecodeRune(b) // 解码第一个rune
+	fmt.Printf("First rune: %c, size: %d bytes\n", r, size)
+
+	// 2. 编码：将一个 rune 编码为 UTF-8 字节序列写入 []byte
+	newRune := '无'
+	buf := make([]byte, 3)
+	n := utf8.EncodeRune(buf, newRune)
+	fmt.Println(buf[:n]) // 输出: [230 151 160] (『无』字的UTF-8编码)
+
+	// 3. 获取字符串中的rune数量（不是字节数！）
+	fmt.Println(len(str))                    // 输出 16（字节数，"Hello, "中的字符各占1个，汉字占 3 个）
+	fmt.Println(utf8.RuneCountInString(str)) // 输出: 10 (rune数，即字符数)
 }

@@ -23,3 +23,15 @@ func TestStrings(t *testing.T) {
 	StringsCase01()
 	StringsCase02()
 }
+
+func TestBytesCase(t *testing.T) {
+	BytesCase01()
+}
+
+func TestUnicodeCase(t *testing.T) {
+	UnicodeCase01()
+}
+
+func TestUTF8Case(t *testing.T) {
+	UTF8Case01()
+}

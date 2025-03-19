@@ -7,18 +7,18 @@ package linked_list
 只需要遍历链表，并在当前节点和下一个节点的值相等时，删除下一个节点。相比于82题要重复就全删，83题要简单得多
 */
 func deleteDuplicates(head *ListNode) *ListNode {
-    if head == nil {
-        return nil
-    }
+	if head == nil {
+		return nil
+	}
 
-    dummy := &ListNode{Next: head}
-    cur := head
-    for cur.Next != nil {
-        if cur.Val == cur.Next.Val {
-            cur.Next = cur.Next.Next
-            continue
-        }
-        cur = cur.Next
-    }
-    return dummy.Next
+	dummy := &ListNode{Next: head}
+	cur := head
+	for cur.Next != nil {
+		if cur.Val == cur.Next.Val {
+			cur.Next = cur.Next.Next
+			continue
+		}
+		cur = cur.Next
+	}
+	return dummy.Next
 }

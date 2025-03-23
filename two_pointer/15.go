@@ -47,39 +47,39 @@ k 从数组的末尾开始，指向最后一个数。
 	}
 */
 func threeSum(nums []int) [][]int {
-    slices.Sort(nums)
+	slices.Sort(nums)
 
-    var res [][]int
-    target, n := 0, len(nums)
-    for i := 0; i < n-2; i++ {
-        if i > 0 && nums[i] == nums[i-1] {
-            continue
-        }
+	var res [][]int
+	target, n := 0, len(nums)
+	for i := 0; i < n-2; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
 
-        if nums[i]+nums[i+1]+nums[i+2] > target {
-            break
-        }
-        if nums[i]+nums[n-2]+nums[n-1] < target {
-            continue
-        }
+		if nums[i]+nums[i+1]+nums[i+2] > target {
+			break
+		}
+		if nums[i]+nums[n-2]+nums[n-1] < target {
+			continue
+		}
 
-        j, k := i+1, n-1
-        for j < k {
-            sum := nums[i] + nums[j] + nums[k]
-            if sum == target {
-                res = append(res, []int{nums[i], nums[j], nums[k]})
-                for j++; j < k && nums[j-1] == nums[j]; j++ {
-                }
-                for k--; k > j && nums[k] == nums[k+1]; k-- {
-                }
-            } else if sum < target {
-                j++
-            } else {
-                k--
-            }
-        }
-    }
-    return res
+		j, k := i+1, n-1
+		for j < k {
+			sum := nums[i] + nums[j] + nums[k]
+			if sum == target {
+				res = append(res, []int{nums[i], nums[j], nums[k]})
+				for j++; j < k && nums[j-1] == nums[j]; j++ {
+				}
+				for k--; k > j && nums[k] == nums[k+1]; k-- {
+				}
+			} else if sum < target {
+				j++
+			} else {
+				k--
+			}
+		}
+	}
+	return res
 }
 
 /*
